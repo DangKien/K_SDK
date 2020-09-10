@@ -16,11 +16,9 @@
     },
     "require-dev": {
     },
-    "suggest": {
-    },
     "autoload": {
-        "psr-4": {
-   
+        "psr-0": {
+            "BizflyCrmSdk": "/src"
         }
     },
     "autoload-dev": {
