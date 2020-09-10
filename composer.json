@@ -1,0 +1,28 @@
+{
+    "name": "dangkien/sdk",
+    "description": "Đây là sdk thử nghiệm",
+    "keywords": ["sdk", "kien"],
+    "type": "library",
+    "homepage": "https://github.com/DangKien/K_SDK",
+    "license": "Đặng Kiên",
+    "authors": [
+        {
+            "name": "Đặng Trung Kiên",
+            "email": "dangtrungkien96@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^5.4|^7.0"
+    },
+    "require-dev": {
+    },
+    "suggest": {
+    },
+    "autoload": {
+        "psr-4": {
+   
+        }
+    },
+    "autoload-dev": {
+    },
+}
