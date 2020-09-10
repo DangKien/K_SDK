@@ -18,7 +18,7 @@ class Http
 
     const HTTP_CONTENT_TYPE_JSON = 'application/json';
 
-    private $url = 'https://crm.bizfly.vn/_api/';
+    private $url = 'https://crmbizfly.todo.vn/_api/';
     private $headers;
 
     function __construct() {
@@ -60,20 +60,15 @@ class Http
         if (in_array(strtolower($method), [strtolower(self::HTTP_METHOD_POST)])) {
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
             curl_setopt($ch, CURLOPT_POST, TRUE);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
         }
-
         // Thêm Header
         curl_setopt($ch, CURLOPT_HTTPHEADER, $this->_getHeader());
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         $result = curl_exec($ch);
-
         $info = curl_getinfo($ch);
-
         // Đóng Curl
         curl_close($ch);
-
         return json_decode($result);
     }
 
@@ -92,10 +87,15 @@ class Http
      * @return array
      */
     private function _getHeader($headers = []) {
+        $newHeaders = $this->headers;
         if (!empty($headers)) {
-            return array_replace_recursive($this->headers, $headers);
+            $newHeaders = array_replace_recursive($this->headers, $headers);
         }
-        return $this->headers;
+        $retData = [];
+        foreach($newHeaders as $key => $val) {
+            $retData[] = "$key: $val";
+        }
+        return $retData;
     }
 
     /**
