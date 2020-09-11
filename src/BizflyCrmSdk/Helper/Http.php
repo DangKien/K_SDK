@@ -69,7 +69,7 @@ class Http
         $info = curl_getinfo($ch);
         // Đóng Curl
         curl_close($ch);
-        return json_decode($result);
+        return json_decode($result, true);
     }
 
     /**
