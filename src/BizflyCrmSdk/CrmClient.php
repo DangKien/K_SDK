@@ -82,4 +82,8 @@ class CrmClient
         }
     }
 
+    public function setTable () {
+
+    }
+
 }
