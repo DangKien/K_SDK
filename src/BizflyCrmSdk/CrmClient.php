@@ -48,7 +48,8 @@ class CrmClient
     /**
      * Call đến api theo
      * @param string $name , $arg
-     * @return $url
+     * @param array $args
+     * @return bool|mixed $url
      */
     public function __call($name, $args = []) {
         if (isset($name)) {
@@ -60,11 +61,13 @@ class CrmClient
         }
     }
 
-    public static function __callStatic($name, $arguments) {
-
-    }
-
-    public function _callAPI ($api, $table = '',  $options) {
+    /**
+     * @param string $api
+     * @param string $table
+     * @param $options
+     * @return bool|mixed
+     */
+    public function _callAPI ($api = "", $table = '', $options) {
         if (isset($this->arrPath[$api])) {
             $path = $this->arrPath[$api];
             $body = isset($options['body']) ? $options['body'] : [];
@@ -79,59 +82,4 @@ class CrmClient
         }
     }
 
-
-//    public function find($table = '', $options = []) {
-//        $path = 'base-table/find';
-//        $body = isset($options['body']) ? $options['body'] : [];
-//        $headers = isset($options['headers']) ? $options['headers'] : [];
-//
-//        $params = ['table' => $table];
-//        $params = array_merge($params, $body);
-//
-//        return Http::getInstance()->post($path, $params, $headers);
-//    }
-//
-//    public function update($table = '', $options = []) {
-//        $path = 'base-table/update';
-//        $body = isset($options['body']) ? $options['body'] : [];
-//        $headers = isset($options['headers']) ? $options['headers'] : [];
-//
-//        $params = ['table' => $table];
-//
-//        $params = array_merge($params, $body);
-//
-//        return Http::getInstance()->post($path, $params, $headers);
-//    }
-//
-//    public function createList($table, $options = []) {
-//
-//        $path = 'base-table/add-lists';
-//
-//        $body = isset($options['body']) ? $options['body'] : [];
-//        $headers = isset($options['headers']) ? $options['headers'] : [];
-//
-//        $params = ['table' => $table];
-//
-//        $params = array_merge($params, $body);
-//
-//        return Http::getInstance()->post($path, $params, $headers);
-//    }
-//
-//    public function getList($table, $options = []) {
-//        $path = 'base-table/get-lists';
-//
-//        $body = isset($options['body']) ? $options['body'] : [];
-//        $headers = isset($options['headers']) ? $options['headers'] : [];
-//
-//        return Http::getInstance()->post($path, $params, $headers);
-//    }
-//
-//    public function addFields ($table, $options = []) {
-//        $path = 'base-table/add-fields';
-//
-//        $body = isset($options['body']) ? $options['body'] : [];
-//        $headers = isset($options['headers']) ? $options['headers'] : [];
-//
-//        return Http::getInstance()->post($path, $params, $headers);
-//    }
 }
