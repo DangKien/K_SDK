@@ -23,36 +23,46 @@ class Table
         'emails'
     ];
 
-    private  $client;
-    public function __construct($table,&$client)
-    {
+    private $client;
+
+    public function __construct($table, &$client) {
         $this->client = $client;
         $this->table = $table;
     }
-    protected function setClient(&$client)
-    {
+
+    /**
+     * @param $client
+     *
+     */
+
+    protected function setClient(&$client) {
         $this->client = $client;
     }
-    protected function getTable()
-    {
+
+    /**
+     * Lấy bảng hiện tại
+     * @return mixed
+     */
+    protected function getTable() {
         return $this->table;
     }
 
-    public function callApi($path,$body)
-    {
+    /**
+     * Call API
+     * @param $path
+     * @param $body
+     * @return array|\Illuminate\Support\Collection|mixed|string
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function callApi($path, $body) {
         $requestHelper = new RequestHelper($this->client->auth, $this->client->configs);
-
         $rows = [];
-        try{
-            $response = $requestHelper->post($path,
-                $body);
+        try {
+            $response = $requestHelper->post($path, $body);
             $rows = $requestHelper->decode($response);
+        } catch (\Exception $e) {
+            $rows['status'] = ErrorCode::API_RESPONSE_FAIL;
         }
-        catch (\Exception $e)
-        {
-            $rows['status'] =  ErrorCode::API_RESPONSE_FAIL;
-        }
-
         if (isset($rows['status']) && $rows['status'] == ErrorCode::API_RESPONSE_SUCCESS) {
             if (isset($rows['data']) && is_array($rows['data'])) {
                 return collect($rows['data']);
@@ -61,30 +71,60 @@ class Table
             return $rows;
         }
     }
-    public function update($body)
-    {
+
+    /**
+     * Thêm mới bản ghi hoặc cập nhật bản ghi các bảng
+     * @param $body
+     * @return array|\Illuminate\Support\Collection|mixed|string
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function update($body) {
         $body['table'] = $this->getTable();
-        return $this->callApi('_api/base-table/update',$body);
+        return $this->callApi('_api/base-table/update', $body);
     }
-    public function find($body)
-    {
+
+    /**
+     * Tìm kiếm 1 bản ghi hoặc nhiều bản ghi
+     * @param $body
+     * @return array|\Illuminate\Support\Collection|mixed|string
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function find($body) {
         $body['table'] = $this->getTable();
-        return $this->callApi('_api/base-table/find',$body);
+        return $this->callApi('_api/base-table/find', $body);
     }
-    public function struct($body)
-    {
+
+    /**
+     * Lấy thông tin các trường trong bảng
+     * @param $body
+     * @return array|\Illuminate\Support\Collection|mixed|string
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function struct($body) {
         $body['table'] = $this->getTable();
-        return $this->callApi('_api/base-table/struct',$body);
+        return $this->callApi('_api/base-table/struct', $body);
     }
-    public function addFields($body)
-    {
+
+    /**
+     * Thêm trường vào bảng
+     * @param $body
+     * @return array|\Illuminate\Support\Collection|mixed|string
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function addFields($body) {
         $body['table'] = $this->getTable();
-        return $this->callApi('_api/base-table/struct',$body);
+        return $this->callApi('_api/base-table/struct', $body);
     }
-    public function getLists($body)
-    {
+
+    /**
+     * Lấy danh sách
+     * @param $body
+     * @return array|\Illuminate\Support\Collection|mixed|string
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getLists($body) {
         $body['table'] = $this->getTable();
-        return $this->callApi('_api/base-table/struct',$body);
+        return $this->callApi('_api/base-table/struct', $body);
     }
 
 }
