@@ -18,7 +18,8 @@
     },
     "autoload": {
         "psr-0": {
-            "BizflyCrmSdk": "/src"
+            "BizflyCrmSdk": "/src",
+			"BizflyHelperSdk": "/src"
         }
     },
     "autoload-dev": {
