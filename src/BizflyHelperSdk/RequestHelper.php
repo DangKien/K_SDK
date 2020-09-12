@@ -4,10 +4,10 @@
  * Website: https://techhandle.net
  */
 
-namespace BizflyHelper;
+namespace BizflyHelperSdk;
 
-use BizflyCrm\CrmClient;
-use BizflyCrm\Enum\Param;
+use BizflyCrmSdk\CrmClient;
+use BizflyCrmSdk\Enum\Param;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;

@@ -4,24 +4,23 @@
  * Website: https://techhandle.net
  */
 
-namespace BizflyCrm\Resources;
+namespace BizflyCrmSdk\Resources;
 
 
 
-class Customer extends Table
+class Deal extends Table
 {
     /** @var string */
+
     private $table;
     private $mapping = [
         'phones',
         'emails'
     ];
 
-
-
     public function __construct($client)
     {
-        $this->table = 'data_customer';
+        $this->table = 'data_deal';
         parent::setClient($client);
     }
 

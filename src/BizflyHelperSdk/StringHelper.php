@@ -5,7 +5,7 @@
  */
 
 
-namespace BizflyHelper;
+namespace BizflyHelperSdk;
 
 
 class StringHelper

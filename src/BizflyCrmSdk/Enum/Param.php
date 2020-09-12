@@ -3,7 +3,7 @@
  * Created by ngankt2@gmail.com
  * Website: https://techhandle.net
  */
-namespace BizflyCrm\Enum;
+namespace BizflyCrmSdk\Enum;
 
 /**
  * Supported parameter keys.

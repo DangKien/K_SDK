@@ -4,7 +4,7 @@
  * Website: https://techhandle.net
  */
 
-namespace BizflyHelper;
+namespace BizflyHelperSdk;
 
 class AuthHelper
 {

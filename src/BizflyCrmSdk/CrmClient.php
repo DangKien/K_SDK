@@ -4,26 +4,26 @@
  * Website: https://techhandle.net
  */
 
-namespace BizflyCrm;
+namespace BizflyCrmSdk;
 
 use App\Elibs\Debug;
-use BizflyCrm\Enum\ErrorCode;
-use BizflyCrm\Resources\Customer;
-use BizflyCrm\Resources\Deal;
-use BizflyCrm\Resources\Field;
-use BizflyCrm\Resources\Product;
-use BizflyHelper\AuthHelper;
-use BizflyHelper\ConfigHelper;
-use BizflyHelper\DebugHelper;
-use BizflyHelper\RequestHelper;
-use BizflyCrm\Resources\Table;
-use BizflyHelper\StringHelper;
+use BizflyCrmSdk\Enum\ErrorCode;
+use BizflyCrmSdk\Resources\Customer;
+use BizflyCrmSdk\Resources\Deal;
+use BizflyCrmSdk\Resources\Field;
+use BizflyCrmSdk\Resources\Product;
+use BizflyHelperSdk\AuthHelper;
+use BizflyHelperSdk\ConfigHelper;
+use BizflyHelperSdk\DebugHelper;
+use BizflyHelperSdk\RequestHelper;
+use BizflyCrmSdk\Resources\Table;
+use BizflyHelperSdk\StringHelper;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\ClientInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * BizflyCrm\CrmClient
+ * BizflyCrmSdk\CrmClient
  * Đối tượng chứa các hàm liên quan đến API CRM
  */
 class CrmClient

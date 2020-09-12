@@ -8,7 +8,7 @@ require_once '../vendor/autoload.php';
 
 $projectToken = '';
 
-$crmClient = new BizflyCrm\CrmClient([    //Config static url
+$crmClient = new BizflyCrmSdk\CrmClient([    //Config static url
     'sdk_domain'=> env('SDK_DOMAIN', 'http://crmbizfly.todo.vn/'),
 
     'api_key' => env('SDK_KEY', 'Ffd54ukCntZHEFV8KpPvFTVTUJz3s6ZcCTFe46yuj'),

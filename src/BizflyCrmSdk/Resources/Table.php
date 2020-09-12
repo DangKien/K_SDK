@@ -4,10 +4,10 @@
  * Website: https://techhandle.net
  */
 
-namespace BizflyCrm\Resources;
+namespace BizflyCrmSdk\Resources;
 
-use BizflyCrm\Enum\ErrorCode;
-use BizflyHelper\RequestHelper;
+use BizflyCrmSdk\Enum\ErrorCode;
+use BizflyHelperSdk\RequestHelper;
 
 
 class Table

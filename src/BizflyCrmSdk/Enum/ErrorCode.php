@@ -4,7 +4,7 @@
  * Website: https://techhandle.net
  */
 
-namespace BizflyCrm\Enum;
+namespace BizflyCrmSdk\Enum;
 
 /**
  * Supported error codes.

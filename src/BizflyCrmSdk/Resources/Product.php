@@ -4,11 +4,11 @@
  * Website: https://techhandle.net
  */
 
-namespace BizflyCrm\Resources;
+namespace BizflyCrmSdk\Resources;
 
 
 
-class Activity extends Table
+class Product extends Table
 {
     /** @var string */
 

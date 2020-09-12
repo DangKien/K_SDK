@@ -4,7 +4,7 @@
  * Website: https://techhandle.net
  */
 
-namespace BizflyCrm\Resources;
+namespace BizflyCrmSdk\Resources;
 
 class DataTypes
 {
