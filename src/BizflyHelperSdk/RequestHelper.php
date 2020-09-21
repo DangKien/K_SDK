@@ -1,8 +1,4 @@
 <?php
-/**
- * Created by ngankt2@gmail.com
- * Website: https://techhandle.net
- */
 
 namespace BizflyHelperSdk;
 

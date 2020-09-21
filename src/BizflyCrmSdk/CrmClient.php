@@ -1,13 +1,10 @@
 <?php
-/**
- * Created by ngankt2@gmail.com
- * Website: https://techhandle.net
- */
 
 namespace BizflyCrmSdk;
 
 use App\Elibs\Debug;
 use BizflyCrmSdk\Enum\ErrorCode;
+use BizflyCrmSdk\Resources\Activity;
 use BizflyCrmSdk\Resources\Customer;
 use BizflyCrmSdk\Resources\Deal;
 use BizflyCrmSdk\Resources\Field;
@@ -41,6 +38,9 @@ class CrmClient
     public function __construct($configs = [], $project_token = '') {
         if ($project_token && (!isset($configs['project_token']) || !$configs['project_token'])) {
             $configs['project_token'] = $project_token;
+        }
+        if (empty($configs['sdk_domain'])) {
+            $configs['sdk_domain'] = 'https://crm.bizfly.vn/';
         }
         $this->project_token = $configs['project_token'];
         $configs['sdk_version'] = self::VERSION;
@@ -95,7 +95,7 @@ class CrmClient
      * @return string
      */
     public function getTableActivity() {
-        return new Deal($this);
+        return new Activity($this);
 
     }
 

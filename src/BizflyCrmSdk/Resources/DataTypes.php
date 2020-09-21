@@ -1,8 +1,4 @@
 <?php
-/**
- * Created by ngankt2@gmail.com
- * Website: https://techhandle.net
- */
 
 namespace BizflyCrmSdk\Resources;
 
@@ -26,12 +22,6 @@ class DataTypes
         return [
             'string-object', 'integer', 'date', 'object', 'array-object', 'double', 'string'
         ];
-        try {
-            $reflectionClass = new \ReflectionClass(self::class);
-            return $reflectionClass->getConstants();
-        } catch (\ReflectionException $exc) {
-            return [];
-        }
 
     }
 

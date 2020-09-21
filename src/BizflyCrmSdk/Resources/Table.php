@@ -1,8 +1,4 @@
 <?php
-/**
- * Created by ngankt2@gmail.com
- * Website: https://techhandle.net
- */
 
 namespace BizflyCrmSdk\Resources;
 
@@ -63,13 +59,7 @@ class Table
         } catch (\Exception $e) {
             $rows['status'] = ErrorCode::API_RESPONSE_FAIL;
         }
-        if (isset($rows['status']) && $rows['status'] == ErrorCode::API_RESPONSE_SUCCESS) {
-            if (isset($rows['data']) && is_array($rows['data'])) {
-                return collect($rows['data']);
-            }
-        } else {
-            return $rows;
-        }
+        return  $rows;
     }
 
     /**
@@ -100,7 +90,7 @@ class Table
      * @return array|\Illuminate\Support\Collection|mixed|string
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function struct($body) {
+    public function struct() {
         $body['table'] = $this->getTable();
         return $this->callApi('_api/base-table/struct', $body);
     }
@@ -113,7 +103,7 @@ class Table
      */
     public function addFields($body) {
         $body['table'] = $this->getTable();
-        return $this->callApi('_api/base-table/struct', $body);
+        return $this->callApi('_api/base-table/add-fields', $body);
     }
 
     /**
@@ -124,7 +114,19 @@ class Table
      */
     public function getLists($body) {
         $body['table'] = $this->getTable();
-        return $this->callApi('_api/base-table/struct', $body);
+        return $this->callApi('_api/base-table/get-lists', $body);
+    }
+
+
+    /**
+     * Thêm danh sách
+     * @param $body
+     * @return array|\Illuminate\Support\Collection|mixed|string
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function addLists($body) {
+        $body['table'] = $this->getTable();
+        return $this->callApi('_api/base-table/add-lists', $body);
     }
 
 }

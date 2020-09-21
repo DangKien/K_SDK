@@ -1,16 +1,8 @@
 {
-    "name": "dangkien/sdk",
-    "description": "Đây là sdk thử nghiệm",
-    "keywords": ["sdk", "kien"],
+    "name": "dangkien/phpsdk",
+    "description": "phpsdk",
+    "keywords": ["sdk", "phpsdk"],
     "type": "library",
-    "homepage": "https://github.com/DangKien/K_SDK",
-    "license": "Đặng Kiên",
-    "authors": [
-        {
-            "name": "Đặng Trung Kiên",
-            "email": "dangtrungkien96@gmail.com"
-        }
-    ],
     "require": {
         "php": "^5.4|^7.0",
 		"guzzlehttp/guzzle": "^6.3"

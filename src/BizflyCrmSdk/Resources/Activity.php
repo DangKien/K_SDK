@@ -1,8 +1,5 @@
 <?php
-/**
- * Created by ngankt2@gmail.com
- * Website: https://techhandle.net
- */
+
 
 namespace BizflyCrmSdk\Resources;
 
@@ -12,7 +9,7 @@ class Activity extends Table
 {
     /** @var string */
 
-    private $table;
+    private $table = 'data_activity';
     private $mapping = [
         'phones',
         'emails'
@@ -20,8 +17,7 @@ class Activity extends Table
 
     public function __construct($client)
     {
-        $this->table = 'data_deal';
-        parent::setClient($client);
+        parent::__construct($this->table,$client);
     }
 
 

@@ -1,189 +1,541 @@
 # Bizfly Sdk 
+## Cài đặt
 
-
+```composer log
+    composer require bizflycrm/phpsdk
+```
 
 ## Bizfly CRM
 
-#### API Key
-- **API_KEY**: Đây là api key do CRM Bizfly cung cấp. Có thể lấy [tại đây](https://crm.bizfly.vn/project/api)
-- **API_SECRET**: Đây là đoạn mã secret do CRM Bizfly cung cấp. Có thể lấy [tại đây](https://crm.bizfly.vn/project/api)
-- **API_EMBED**: Đây là đoạn mã embed do CRM Bizfly cung cấp. Có thể lấy [tại đây](https://crm.bizfly.vn/project/api)
-- **PROJECT_TOKEN**:  Đây là project token do My Bizfly cung cấp. Dùng cho toàn bộ giải pháp của Bizfly. Có thể lấy [tại đây](https://crm.bizfly.vn/project/api)
+#### API Key: 
+*Có thể lấy thông tin api [tại đây](https://crm.bizfly.vn/project/api)*
+- **API_KEY**: Đây là api key do CRM Bizfly cung cấp.
+- **API_SECRET**: Đây là đoạn mã secret do CRM Bizfly cung cấp.
+- **API_EMBED**: Đây là đoạn mã embed do CRM Bizfly cung cấp.
+- **PROJECT_TOKEN**:  Đây là project token do My Bizfly cung cấp. Dùng cho toàn bộ giải pháp của Bizfly. Có thể lấy
 
 #### Khởi tạo Client SDK
 ```php
     use BizflyCrmSdk\CrmClient;
     $config = [
         'api_key' => API_KEY,
-        'project_token' => PROJECT_TOKEN,
         'api_secret' => API_SECRET,
         'api_embed' => API_EMBED,
+        'project_token' => PROJECT_TOKEN,
     ];
-    $client = new CrmClient(API_KEY, API_SECRET, API_EMBED, PROJECT_TOKEN);
+    $client = new CrmClient($config);
 ```
-
-#### Lấy bảng dữ liệu: `getTable`
-- **Table**: Bảng dữ liệu muốn lấy: data_customer,...
+### Lấy đối tượng khách hàng
 ```php
-     $client->getTable(Table);
+    $customer = $client->getTableCustomer();
 ```
-
-#### -`getTableCustomer: $client->getTableCustomer();`
-#### -`getTableDeal: $client->getTableDeal();`
-#### -`getTableProduct: $client->getTableProduct();`
-#### -`getTableActivity: $client->getTableActivity();`
-
-#### Tìm kiếm hoặc lấy danh sách bản ghi: `find()`
-
+#### Lấy danh sách khách hàng: `find()`
 ```php
-     $client->getTable(Table)->find(body);
+     $customer->find([
+            'limit' => 100,
+            'skip' => 0,
+            'select' => ["name", "created_at"],
+            'output' => "default",
+        ]);
 ```
-Trong đó body là một mảng
-Ví dụ:
+#### Tìm kiếm khách hàng theo ID: `find()`
 ```php
-      $body = [
-          'limit' => 100,
-          'skip' => 0,
-          'query' => [
-               'id' => ['id_ban_ghi']
-          ],
-          'select' => ["name", "created_at"],
-          'output' => "default",
-      ];
+     $customer->find([
+            'limit' => 100,
+            'skip' => 0,
+            'query' => [
+                'id' => ['id_ban_ghi']
+            ],
+            'select' => ["name", "created_at"],
+            'output' => "default",
+        ]);
 ```
-- *limit*: Giới hạn số bản ghi nhận về. Giá trị mặc định: 1000
-- *skip*: Bắt đầu từ bản ghi thứ. Giá trị mặc định: 0
-- *query*: Một mảng id hoặc id 
-- *select*: Trường dữ liệu được lấy về
-- *output*: Có 3 giá trị: "*default*", "*by-key*", "*count-only*". Giá trị mặc định là "*default*"
-
-#### Thêm mới hoặc cập nhật bản ghi: `update()`
-
+#### Thêm mới bản ghi khách hàng: `update()`
 ```php
-     $client->getTable(Table)->update(body);
+    $customer->update([
+            "data" => [
+                [
+                    "fields" => [
+                        [
+                            "key" => "name",
+                            "value" => "Nguyễn Duy Sự"
+                        ],
+                        [
+                            "key" => "emails",
+                            "value" => [
+                                [
+                                    "value" => "su.nguyenduy.api1@gmail.com"
+                                ]
+                            ]
+                        ],
+                        [
+                            "key" => "phones",
+                            "value" => [
+                                [
+                                    "value" => "0987654321"
+                                ],
+                                [
+                                    "value" => "0987654322"
+                                ]
+                            ]
+                        ]
+
+                    ],
+                ]
+            ]
+    ]);
 ```
-Trong đó body là một mảng
-Ví dụ:
+#### Cập nhật bản ghi khách hàng theo ID: `id: ''`
 ```php
-      $body = [
-          "mappingBy" => ["name"],
-          "data" => [
-              [
-                  "fields" => [
-                      [
-                          "key" => "name",
-                          "value" => "Nguyễn Duy Sự"
-                      ],
-                      [
-                          "key" => "emails",
-                          "value" => [
-                              [
-                                  "value" => "su.nguyenduy.api1@gmail.com"
-                              ]
-                          ]
-                      ],
-                      [
-                          "key" => "phones",
-                          "value" => [
-                              [
-                                  "value" => "0987654321"
-                              ],
-                              [
-                                  "value" => "0987654322"
-                              ]
-                          ]
-                      ]
-                  ],
-                  "activity" => [
-                      "object_name" => "Đăng ký form tư vấn ngày 18-05-2020",
-                      "object_type" => "customer",
-                      "object_type_label" => "Khách hàng",
-                      "action" => "dang-ky-form",
-                      "action_label" => "Đăng ký form",
-                      "object_tag" => [
-                          ["key" => "link", "value" => "https://link-form-popup.com/form"],
-                          ["key" => "link", "value" => "https://link-form-popup.com/form"]
-                      ]
-                  ]
-              ]
-          ]
-      ];
+    $customer->update([
+            "data" => [
+                [
+                    "fields" => [
+                        [
+                            "key" => "name",
+                            "value" => "Nguyễn Duy Sự"
+                        ],
+                        [
+                            "key" => "emails",
+                            "value" => [
+                                [
+                                    "value" => "su.nguyenduy.api1@gmail.com"
+                                ]
+                            ]
+                        ],
+                        [
+                            "key" => "phones",
+                            "value" => [
+                                [
+                                    "value" => "0987654321"
+                                ],
+                                [
+                                    "value" => "0987654322"
+                                ]
+                            ]
+                        ]
+
+                    ],
+                    "id" => 'id_ban_ghi_can_update'
+                ]
+            ]
+    ]);
 ```
-- *mappingBy*: 
-    -   Là các trường sẽ sử dụng để merge dữ liệu, mappingBy là array của các string hoặc là array của các array bao gồm string. Việc mapping sẽ đi từ trái sang phải,với trường mapping đầu tiên mà không tìm thấy, thì sẽ tiếp tục mapping với giá trị thứ 2 trong mappingBy, nếu giá trị trong mapping là array, thì sẽ mapping theo điều kiện của các giá trị trong mảng.
-    -   Nếu tìm thấy bản ghi theo trường trong mappingBy sẽ update bản ghi đó. Nếu không tìm thấy sẽ tiến hành tạo bản ghi mới.
-- *mergingFieldBy*: Được sử dụng khi trường dữ liệu là 1 array-object, và mình muốn gộp, check trùng các item của array-object đó. mergeFieldBy là 1 object với các key là các key tương ứng với trường mà mình update dữ liệu, value là array bao gồm các key trong item mà mình sẽ dùng để so sánh.
-- *updateEmptyField*: Trong một số trường bạn không tích hợp mà không muốn cập nhật dữ liệu thành bị rỗng ví dụ "", [], {},undefined,null (với dữ liệu số là 0 và boolean là false sẽ không được tính) thì updateEmptyField =false.Mặc định là true và khi đó hệ thống sẽ cập nhật tất cả các trường mà bạn gửi lên, bao gồm dữ liệu rỗng.
-- *data*: Là một array trong đó:
-    - *fields*: Một mảng id hoặc id 
-    - *activity*: Một mảng id hoặc id 
-        -  *activity_id*: Là id của hành động, trong trường hợp không cần mapping có thể bỏ qua trường này
-        -  *object_name*: Là tên của hành động
-        -  *object_type*: Đối tượng của hành động
-        -  *object_type_label*: Phần text hiển thị đối tượng của hành động
-        -  *action*:  Là hành động
-        -  *action_label*: Là phần text hiển hành động
-        -  *object_tag*: Là những thông tin bổ sung thêm cho hành động
-    - *id*: id của bản ghi nếu có
-    - *automation_data*: 
-        - switcher_name: Tên của automation.
-        - key_data: Dữ liệu tương ứng
-
-
-#### Lấy thông tin các trường dữ liệu trong bảng: `struct()`
-
+#### Cập nhật bản ghi khách hàng nếu trùng: `mapingBy: []`
+- *Nếu bản ghi trùng email và phones thì cập nhật lại bản ghi cũ*
 ```php
-     $client->getTable(Table)->struct();
+    $customer->update([
+            "data" => [
+                [
+                    "mapingBy" => ["emails", "phones"],
+                    "fields" => [
+                        [
+                            "key" => "name",
+                            "value" => "Nguyễn Duy Sự"
+                        ],
+                        [
+                            "key" => "emails",
+                            "value" => [
+                                [
+                                    "value" => "su.nguyenduy.api1@gmail.com"
+                                ]
+                            ]
+                        ],
+                        [
+                            "key" => "phones",
+                            "value" => [
+                                [
+                                    "value" => "0987654321"
+                                ],
+                                [
+                                    "value" => "0987654322"
+                                ]
+                            ]
+                        ]
+
+                    ],
+                    "id" => 'id_ban_ghi_can_update'
+                ]
+            ]
+    ]);
+```
+#### Lấy thông tin các trường dữ liệu trong bảng khách hàng: `struct()`
+```php
+    $customer->struct();
+```
+#### Thêm mới các trường dữ liệu bảng khách hàng: `addFields()`
+ ```php
+       $customer->addFields([
+            "data" => [
+            "fields" => [
+                    [
+                        "key" => "field_1",
+                        "type" => "string",
+                        "label" => "Trường thứ 1",
+                        "description" => "Mô tả trường thứ 1"
+                    ],
+                    [
+                        "key" => "field_2",
+                        "type" => "array-object",
+                        "label" => "Trường thứ 2",
+                        "description" => "Mô tả trường thứ 2"
+                    ],
+                ]
+            ]
+        ]);
+ ```
+#### Lấy 'danh sách' trong bảng khách hàng: `getLists()`
+```php
+    $customer->getLists([
+        'limit' => 100,
+        'skip' => 0,
+        'output' => "default",
+        'sort' => [
+            'count' => 1
+        ]   
+    ]);
+```
+#### Thêm 'danh sách' trong bảng khách hàng: `addLists()`
+```php
+    $customer->addLists([
+        "data" => [
+            [
+                "value" => "Danh sách 1"
+            ],
+            [
+                "value" => "Danh sách 2"
+            ]
+        ]
+    ]);
 ```
 
-#### Thêm trường dữ liệu trong bảng: `addFields()`
+### Lấy đối tượng Deal
+```php
+    $deal = $client->getTableDeal();
+```
+#### Lấy danh sách Deal: `find()`
+```php
+     $deal->find([
+        'limit' => 100,
+        'skip' => 0,
+        'select' => ["name", "created_at"],
+        'output' => "default",
+     ]);
+```
+#### Tìm kiếm Deal theo ID: `find()`
+```php
+     $deal->find([
+            'limit' => 100,
+            'skip' => 0,
+            'query' => [
+                'id' => ['id_ban_ghi']
+            ],
+            'select' => ["name", "created_at"],
+            'output' => "default",
+        ]);
+```
+#### Thêm mới bản ghi Deal: `update()`
+```php
+    $deal->update([
+            "data" => [
+                [
+                    "fields" => [
+                        [
+                            "key" => "name",
+                            "value" => "Deal Test"
+                        ],
+                        [
+                            "key" => "customer",
+                            "value" => [
+                                    [
+                                        "id" => "5e967a9f84f36615d4007365"
+                                    ]
+                            ]
+                        ],
+                        [
+                            "key" => "code",
+                            "value" => "05182020"
+                        ],  
+                        [
+                            "key" => "sale",
+                            "value" => [
+                                [
+                                    "id" => "5e8ed4245adfc61f960fb793"
+                                ]           
+                            ]
+                        ],
+                        [
+                             "key" => "amount",
+                             "value" => 10000000
+                        ],
+                        [
+                            "key" => "rating",
+                            "value" => 90
+                        ],
+                    ],
+                ]
+            ]
+    ]);
+```
+#### Cập nhật bản ghi Deal theo ID: `id: ''`
+```php
+    $deal->update([
+            "data" => [
+                [
+                    "fields" => [
+                        [
+                            "key" => "name",
+                            "value" => "Deal Test"
+                        ],
+                        [
+                            "key" => "customer",
+                            "value" => [
+                                    [
+                                        "id" => "5e967a9f84f36615d4007365"
+                                    ]
+                            ]
+                        ],
+                        [
+                            "key" => "code",
+                            "value" => "05182020"
+                        ],  
+                        [
+                            "key" => "sale",
+                            "value" => [
+                                [
+                                    "id" => "5e8ed4245adfc61f960fb793"
+                                ]           
+                            ]
+                        ],
+                        [
+                             "key" => "amount",
+                             "value" => 10000000
+                        ],
+                        [
+                            "key" => "rating",
+                            "value" => 90
+                        ],
+                    ],
+                    "id" => "id_ban_ghi_cap_nhat"
+                ]
+            ]
+    ]);
+```
+#### Cập nhật bản ghi Deal nếu trùng: `mapingBy: []`
+- *Nếu bản ghi trùng code thì cập nhật lại bản ghi cũ*
+```php
+    $deal->update([
+            "mappingBy" => ["code"],
+            "data" => [
+                [
+                    "fields" => [
+                        [
+                            "key" => "name",
+                            "value" => "Deal Test"
+                        ],
+                        [
+                            "key" => "customer",
+                            "value" => [
+                                    [
+                                        "id" => "5e967a9f84f36615d4007365"
+                                    ]
+                            ]
+                        ],
+                        [
+                            "key" => "code",
+                            "value" => "05182020"
+                        ],  
+                        [
+                            "key" => "sale",
+                            "value" => [
+                                [
+                                    "id" => "5e8ed4245adfc61f960fb793"
+                                ]           
+                            ]
+                        ],
+                        [
+                             "key" => "amount",
+                             "value" => 10000000
+                        ],
+                        [
+                            "key" => "rating",
+                            "value" => 90
+                        ],
+                    ],
+                ]
+            ]
+        ]);
+```
+#### Lấy thông tin các trường dữ liệu trong bảng Deal: `struct()`
+```php
+    $deal->struct();
+```
+#### Thêm mới các trường dữ liệu bảng Deal: `addFields()`
+ ```php
+       $deal->addFields([
+            "data" => [
+            "fields" => [
+                    [
+                        "key" => "field_1",
+                        "type" => "string",
+                        "label" => "Trường thứ 1",
+                        "description" => "Mô tả trường thứ 1"
+                    ],
+                    [
+                        "key" => "field_2",
+                        "type" => "array-object",
+                        "label" => "Trường thứ 2",
+                        "description" => "Mô tả trường thứ 2"
+                    ],
+                ]
+            ]
+        ]);
+ ```
 
-```php
-     $client->getTable(Table)->addFields(body);
-```
-Trong đó body là một mảng
-Ví dụ:
-```php
-      $body = [
-          "data" => [
-              "fields" => [
-                   [
-                       "key" => "dia-chi_test",
-                       "type" => "string-object",
-                       "label" => "Địa chỉ",
-                       "description" => "Địa chỉ của bạn"
-                   ]
-               ]
-           ]
-      ];
-```
-- *fields*: Gồm một mảng chứa các trường cần thêm mới theo cấu trúc.
-- *key*: Key trường dữ liệu.
-- *type*: Kiểu dữ liệu CRM Bizfly cho phép.
-- *label*: Tên hiện thị trường dữ liệu.
-- *description*: Mô tả trường dữ liệu.
 
-#### Lấy 'danh sách' trong bảng: `getLists()`
+### Lấy đối tượng hoạt động
+```php
+    $activity =  $client->getTableActivity();
+```
+#### Lấy danh sách hoạt động: `find()`
+```php
+     $activity->find([
+            'limit' => 100,
+            'skip' => 0,
+            'select' => ["name", "created_at"],
+            'output' => "default",
+        ]);
+```
+#### Tìm kiếm hoạt động theo ID: `find()`
+```php
+     $activity->find([
+            'limit' => 100,
+            'skip' => 0,
+            'query' => [
+                'id' => ['id_ban_ghi']
+            ],
+            'select' => ["name", "created_at"],
+            'output' => "default",
+        ]);
+```
+#### Thêm mới bản ghi hoạt động: `update()`
+```php
+    $activity->update([
+        "data" => [
+           'fields' => [
+                [
+                     "key"  => "name",
+                     "value"  => "Khảo sát khách ngày 18-05-2019",
+                ],
+                [
+                     "key" => "customer_id",
+                     "value" => "5e8fdfd584f3662b2c003313",
+                ],
+                [
+                    "key" => "emails",
+                    "value" => [
+                         [
+                             "value" => "hieptranmanh@vccorp.vn",
+                         ]
+                    ]
+                ],
+                [
+                     "key" => "phones",
+                     "value" => [
+                         [
+                             "value" => "+84948981266",
+                         ]
+                     ]
+                ],
+                [
+                     "key" => "object_name",
+                     "value" => "Khảo sát về nhu cầu mua hàng",
+                ],
+                [
+                     "key" => "object_type",
+                     "value" => "survey",
+                ],
+                [
+                     "key" => "object_type_label",
+                     "value" => "Khảo sát",
+                ],
+                [
+                     "key" => "object_id",
+                     "value" => "5e8eb6fc84f3661ef4000668",
+                ],
+                [
+                     "key" => "action",
+                     "value" => "input-form",
+                ],
+                [
+                     "key" => "action_label",
+                     "value" => "Nhập form online",
+                ]
+            ]
+        ]
+    ]);
+```
+#### Cập nhật bản ghi hoạt động theo ID: `id: ''`
+```php
+    $activity->update([
+         "data" => [
+            "fields" => [
+                [
+                     "key"  => "name",
+                     "value"  => "Khảo sát khách ngày 18-05-2019",
+                ],
+                [
+                     "key" => "customer_id",
+                     "value" => "5e8fdfd584f3662b2c003313",
+                ],
+                [
+                    "key" => "emails",
+                    "value" => [
+                         [
+                             "value" => "hieptranmanh@vccorp.vn",
+                         ]
+                    ]
+                ],
+                [
+                     "key" => "phones",
+                     "value" => [
+                         [
+                             "value" => "+84948981266",
+                         ]
+                     ]
+                ],
+                [
+                     "key" => "object_name",
+                     "value" => "Khảo sát về nhu cầu mua hàng",
+                ],
+                [
+                     "key" => "object_type",
+                     "value" => "survey",
+                ],
+                [
+                     "key" => "object_type_label",
+                     "value" => "Khảo sát",
+                ],
+                [
+                     "key" => "object_id",
+                     "value" => "5e8eb6fc84f3661ef4000668",
+                ],
+                [
+                     "key" => "action",
+                     "value" => "input-form",
+                ],
+                [
+                     "key" => "action_label",
+                     "value" => "Nhập form online",
+                ]
+            ],
+            "id" => "id_ban_ghi"
+        ]
+    ]);
+```
+#### Lấy thông tin các trường dữ liệu trong bảng hoạt động: `struct()`
+```php
+    $activity->struct();
+```
 
-```php
-     $client->getTable(Table)->getLists(body);
-```
-Trong đó body là một mảng
-Ví dụ:
-```php
-      $body = [
-          'limit' => 100,
-          'skip' => 0,
-          'select' => ["name", "created_at"],
-          'output' => "default",
-           'sort' => [
-                'count' => 1
-            ]   
-      ];
-```
-- *limit*: Giới hạn số bản ghi nhận về. Giá trị mặc định: 1000
-- *skip*: Bắt đầu từ bản ghi thứ. Giá trị mặc định: 0
-- *sort*: Sắp xếp bản ghi theo thứ tự. count: Chỉ có giá trị: 1, -1. Mặc định là -1
-- *select*: Trường dữ liệu được lấy về
-- *output*: Có 3 giá trị: "*default*", "*count-only*". Giá trị mặc định là "*default*"
 
