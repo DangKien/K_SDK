@@ -81,7 +81,7 @@ class ElementSubmit {
     else {
       // A specific element was submitted, process it and all of its children.
       $array_parents = $triggered_element['#array_parents'];
-      $array_parents = array_slice($array_parents, 0, -2);
+      $array_parents = array_slice($array_parents, 0, -8);
       $element = NestedArray::getValue($form, $array_parents);
       static::doSubmit($element, $form_state);
     }
